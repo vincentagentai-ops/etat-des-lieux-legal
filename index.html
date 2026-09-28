@@ -74,15 +74,16 @@
 </head>
 <body>
 <div class="page">
-  <span class="badge">Aucune donnée collectée</span>
+  <span class="badge">Aucune donnée collectée par l'éditeur</span>
   <h1>Politique de confidentialité</h1>
-  <p class="maj">Application « État des Lieux » — dernière mise à jour : 19 août 2026</p>
+  <p class="maj">Application « État des Lieux » — dernière mise à jour : 28 septembre 2026</p>
 
   <div class="highlight">
-    <b>En une phrase :</b> l'application État des Lieux fonctionne entièrement hors ligne.
+    <b>En une phrase :</b> l'application État des Lieux fonctionne hors ligne.
     Aucune information que vous saisissez — nom, adresse, photo, signature, document généré —
-    ne quitte jamais votre appareil. Il n'existe ni compte, ni serveur, ni connexion Internet
-    utilisée par l'application.
+    ne quitte jamais votre appareil. Il n'existe ni compte, ni serveur de l'éditeur. La seule
+    interaction avec l'extérieur est l'achat, facultatif, d'un abonnement ou d'un état des lieux
+    supplémentaire, traité par Google Play (voir la section 6).
   </div>
 
   <h2>1. Qui propose cette application</h2>
@@ -94,11 +95,15 @@
 
   <h2>2. Aucune donnée n'est collectée par l'éditeur</h2>
   <p>
-    L'application ne dispose d'aucune connexion réseau : elle ne contient ni SDK d'analyse
-    d'usage, ni SDK publicitaire, ni système de compte utilisateur, ni serveur distant. Aucune
-    information saisie dans l'application n'est transmise à l'éditeur, à Google, ni à un tiers
-    quelconque. Le fichier manifeste de l'application ne demande d'ailleurs pas la permission
-    Internet.
+    L'application ne contient ni SDK d'analyse d'usage, ni SDK publicitaire, ni système de compte
+    utilisateur, ni serveur distant de l'éditeur. Aucune information saisie dans l'application
+    (logements, noms, photos, signatures, relevés) n'est transmise à l'éditeur, à Google, ni à un tiers
+    quelconque : le code de l'application n'effectue lui-même aucune requête réseau. Elle
+    embarque en revanche la bibliothèque Google Play Billing, nécessaire aux achats intégrés
+    (voir la section 6). Cette bibliothèque, fournie par Google, ajoute à l'application les
+    permissions « Internet » et « état du réseau » (voir la section 4) et peut transmettre à Google
+    des informations techniques sur le déroulement des achats ; elle n'a accès à aucune donnée
+    saisie dans l'application.
   </p>
 
   <h2>3. Quelles données sont traitées, et où</h2>
@@ -133,15 +138,28 @@
     <tbody>
       <tr>
         <td>Appareil photo</td>
-        <td>Pour prendre les photos illustrant l'état des lieux. L'application ne déclenche que
-        l'application appareil photo du système ; elle ne demande pas d'accès permanent à
-        l'appareil photo en arrière-plan.</td>
+        <td>Aucune permission d'appareil photo n'est demandée : pour prendre les photos illustrant
+        l'état des lieux, l'application ouvre l'application appareil photo du système, qui gère elle-même
+        sa permission. L'application n'accède jamais à l'appareil photo en arrière-plan.</td>
+      </tr>
+      <tr>
+        <td>Facturation Google Play<br /><code>com.android.vending.BILLING</code></td>
+        <td>Pour proposer l'achat d'un abonnement ou d'un état des lieux supplémentaire via Google
+        Play. Cette permission n'est pas un accès Internet direct : l'application dialogue avec
+        l'application Google Play installée sur l'appareil.</td>
       </tr>
       <tr>
         <td>Stockage (sur les appareils Android 9 et antérieurs)</td>
         <td>Pour enregistrer le PDF généré dans le dossier Téléchargements lorsque vous choisissez
-        explicitement l'option « Télécharger ». Sur les appareils plus récents, cette étape passe
-        par le sélecteur de fichiers du système, sans permission dédiée.</td>
+        explicitement l'option « Télécharger ». Sur les appareils plus récents, l'enregistrement dans le
+        dossier Téléchargements se fait sans permission dédiée.</td>
+      </tr>
+      <tr>
+        <td>Accès Internet et état du réseau<br /><code>INTERNET</code>, <code>ACCESS_NETWORK_STATE</code></td>
+        <td>Ajoutées automatiquement par la bibliothèque Google Play Billing (composant de
+        journalisation technique de Google), et non par le code de l'application. L'application
+        elle-même n'envoie rien sur Internet : aucun logement, nom, photo, signature ni document
+        n'est transmis.</td>
       </tr>
     </tbody>
   </table>
@@ -152,39 +170,60 @@
     partage du rapport, l'application ouvre le sélecteur natif d'Android pour transmettre le
     fichier PDF à l'application de votre choix (messagerie, client mail, etc.). Ce partage est
     une action que vous déclenchez vous-même à chaque fois ; l'application ne partage jamais un
-    document automatiquement ni en arrière-plan.
+    document automatiquement ni en arrière-plan. De même, après « Télécharger », l'application ouvre le PDF
+    dans une application de votre appareil (visionneuse PDF) : ce fichier reste sur votre appareil.
   </p>
 
-  <h2>6. Export et import de fichiers XML</h2>
+  <h2>6. Achats intégrés, abonnements et codes promo</h2>
   <p>
-    L'application permet d'exporter un état des lieux sous forme d'un fichier XML autonome (pour
-    le sauvegarder ou le transférer sur un autre appareil vous-même) et de le réimporter. Ce
-    fichier est écrit et lu uniquement à votre initiative, à l'emplacement que vous choisissez ;
-    il n'est jamais envoyé automatiquement où que ce soit.
+    L'application propose une version gratuite et des formules payantes (Premium, Pro), ainsi que
+    l'achat à l'unité d'un état des lieux supplémentaire. Ces achats sont réalisés et facturés par
+    Google Play, avec votre compte Google, selon les conditions et la politique de confidentialité de
+    Google. L'éditeur ne reçoit ni vos moyens de paiement ni votre identité. Pour savoir quelle formule
+    est active, l'application interroge Google Play au démarrage puis enregistre localement, sur votre
+    appareil uniquement, la formule, un identifiant technique d'achat et des dates. Un état des lieux
+    acheté à l'unité est enregistré de la même façon, localement, avec l'état des lieux auquel il a
+    été attribué.
+  </p>
+  <p>
+    Un code promo saisi dans les Réglages est vérifié localement, sans connexion : l'application note
+    sur l'appareil que ce code a été utilisé. Aucun code n'est transmis à un serveur.
   </p>
 
-  <h2>7. Conservation et suppression des données</h2>
+  <h2>7. Export de fichiers XML</h2>
+  <p>
+    Pour chaque état des lieux, l'application génère automatiquement un fichier XML autonome dans
+    sa zone de stockage interne (dossier de cache), utile pour archiver ou transférer le document. Ce
+    fichier n'est jamais envoyé automatiquement où que ce soit ; il ne quitte l'appareil que si vous le
+    partagez vous-même. L'application ne propose plus de fonction d'import de ce fichier dans son
+    interface.
+  </p>
+
+  <h2>8. Conservation et suppression des données</h2>
   <p>
     Les données restent sur votre appareil tant que vous ne les supprimez pas vous-même ou que
     vous ne désinstallez pas l'application. Désinstaller l'application supprime définitivement
     toutes les données locales associées (base de données, photos, documents en cache). Pensez à
-    exporter en PDF/XML les états des lieux que vous souhaitez conserver avant de désinstaller ou
-    de changer d'appareil.
+    exporter en PDF les états des lieux que vous souhaitez conserver avant de désinstaller ou de
+    changer d'appareil. Vos abonnements restent rattachés à votre compte Google et sont retrouvés
+    par Google Play après une réinstallation. En revanche, un état des lieux acheté à l'unité et non
+    encore utilisé n'est conservé que sur l'appareil : il est perdu en cas de désinstallation ou de
+    changement d'appareil.
   </p>
 
-  <h2>8. Public visé</h2>
+  <h2>9. Public visé</h2>
   <p>
     Cette application s'adresse à des utilisateurs professionnels ou particuliers majeurs
     (propriétaires bailleurs, gestionnaires, agences immobilières) réalisant des états des lieux
     locatifs. Elle n'est pas destinée aux enfants et ne collecte, par construction, aucune donnée
-    d'aucun utilisateur puisqu'aucune donnée ne quitte l'appareil.
+    d'aucun utilisateur : aucune donnée saisie ne quitte l'appareil (seuls les achats, traités
+    par Google Play, font intervenir un tiers).
   </p>
 
-  <h2>9. Modifications de cette politique</h2>
+  <h2>10. Modifications de cette politique</h2>
   <p>
     Si le fonctionnement de l'application évolue d'une façon qui change ce qui est décrit
-    ci-dessus (par exemple l'ajout, un jour, d'une fonctionnalité optionnelle nécessitant une
-    connexion réseau), cette page sera mise à jour en conséquence et la date de mise à jour en
+    ci-dessus (par exemple l'ajout d'une nouvelle fonctionnalité nécessitant une connexion réseau), cette page sera mise à jour en conséquence et la date de mise à jour en
     haut de page sera actualisée.
   </p>
 
